@@ -1,5 +1,8 @@
 # EstimatorV19
 
+Built with Volta 22.22 using Angular 19.2.22 & Node.js v22.22
+
+
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.22.
 
 ## Development server
