@@ -1,0 +1,50 @@
+:host ::ng-deep th .p-multiselect, :host ::ng-deep th .p-inputtext {
+  width: 100%; 
+}
+:host ::ng-deep .p-table {
+  width: 100%;
+  margin-bottom: 2em; 
+}
+:host ::ng-deep .p-datatable-scrollable-body {
+  overflow-y: auto; 
+}
+:host ::ng-deep .centered {
+  text-align: center; 
+}
+:host ::ng-deep .p-inputgroup {
+  margin: 0.5em 0 0.5em 0; 
+}
+:host ::ng-deep .p-dialog label {
+  font-weight: bold; 
+}
+:host ::ng-deep .send-button {
+  margin-top: 1em;
+  float: right; 
+}
+:host ::ng-deep .align-center {
+  text-align: center; 
+}
+:host ::ng-deep .p-button.write-email-button {
+  margin-top: 1em; 
+}
+
+.main {
+  margin: 1em;
+  height: 85vh; 
+}
+
+.buttons-div {
+  margin-bottom: 1em;
+  display: flex;
+  gap: 0.5em;
+  flex-wrap: wrap;
+}
+
+@media print {
+  :host ::ng-deep .p-datatable-scrollable-body {
+    max-height: none !important; 
+  }
+  :host ::ng-deep .button-col {
+    display: none !important; 
+  } 
+}

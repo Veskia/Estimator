@@ -1,0 +1,15 @@
+<p-dialog header="Add Inventory" [visible]="addInventoryDialog()" (visibleChange)="addInventoryDialog.set($event)" [modal]="true">
+    <div class="flex flex-column gap-3">
+        <input type="text" pInputText [ngModel]="newInventory().vendor" 
+               (ngModelChange)="updateNewInventory('vendor', $event)" placeholder="Vendor">
+        
+        <input type="text" pInputText pKeyFilter="num" [ngModel]="newInventory().want" 
+               (ngModelChange)="updateNewInventory('want', +$event)" placeholder="Want">
+        
+        <textarea pInputTextarea [ngModel]="newInventory().notes" 
+                  (ngModelChange)="updateNewInventory('notes', $event)" placeholder="Notes"></textarea>
+        
+        <button pButton label="Accept" [disabled]="!inventoryComplete()" (click)="submitNewInventory()"></button>
+    </div>
+</p-dialog>
+

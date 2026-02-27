@@ -1,0 +1,296 @@
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>
+
+<div class="main">
+    <p-dialog header="New Machine" 
+              [visible]="addingNewMachine()" 
+              (visibleChange)="addingNewMachine.set($event)" 
+              [modal]="true" 
+              [draggable]="false" 
+              [resizable]="false">
+        <div class="add-modal flex flex-column gap-3 mt-3">
+            <div class="grid align-items-center">
+                <div class="col-3"><label for="new-name" class="font-bold">Name:</label></div>
+                <div class="col-9">
+                    <input id="new-name" type="text" pInputText [(ngModel)]="newMachine.name" class="w-full">
+                </div>
+            </div>
+            <div class="grid align-items-center">
+                <div class="col-3"><label for="new-capacity" class="font-bold">Capacity:</label></div>
+                <div class="col-9">
+                    <input id="new-capacity" type="text" pInputText pKeyFilter="num" 
+                           [ngModel]="newMachine.capacity" 
+                           (ngModelChange)="newMachine.capacity = +$event" 
+                           class="w-full">
+                </div>
+            </div>
+            <div class="grid align-items-center">
+                <div class="col-3"><label for="new-unit" class="font-bold">Units:</label></div>
+                <div class="col-9">
+                    <input id="new-unit" type="text" pInputText [(ngModel)]="newMachine.unit" class="w-full">
+                </div>
+            </div>
+            <button pButton type="button" label="Submit" class="mt-2" (click)="submitNewMachine()"
+                    [disabled]="!newMachine.name || !newMachine.capacity || !newMachine.unit"></button>
+        </div>
+    </p-dialog>
+
+    <p-dialog [header]="selectedPrinter?.name || 'Machine'" 
+              [visible]="openMachineDecisionDialogue()" 
+              (visibleChange)="openMachineDecisionDialogue.set($event)" 
+              [modal]="true" 
+              [draggable]="false" 
+              [resizable]="false">
+        <div class="flex justify-content-center gap-3 p-3">
+            <button pButton type="button" label="Enter/Edit Jobs" icon="pi pi-briefcase" (click)="startEnteringJobs()"></button>
+            <button pButton type="button" label="Edit Machine Settings" icon="pi pi-cog" class="p-button-secondary" (click)="startMachineEdit()"></button>
+        </div>
+    </p-dialog>
+
+    <p-dialog header="Edit Machine Settings" 
+              [visible]="editingMachine()" 
+              (visibleChange)="editingMachine.set($event)" 
+              [modal]="true" 
+              [draggable]="false" 
+              [resizable]="false">
+        <div class="add-modal flex flex-column gap-3 mt-3">
+            <div class="grid align-items-center">
+                <div class="col-3"><label for="edit-name" class="font-bold">Name:</label></div>
+                <div class="col-9">
+                    <input id="edit-name" type="text" pInputText [(ngModel)]="printerCopy.name" class="w-full">
+                </div>
+            </div>
+            <div class="grid align-items-center">
+                <div class="col-3"><label for="edit-capacity" class="font-bold">Capacity:</label></div>
+                <div class="col-9">
+                    <input id="edit-capacity" type="text" pInputText pKeyFilter="num" 
+                           [ngModel]="printerCopy.capacity" 
+                           (ngModelChange)="printerCopy.capacity = +$event" 
+                           class="w-full">
+                </div>
+            </div>
+            <div class="grid align-items-center">
+                <div class="col-3"><label for="edit-unit" class="font-bold">Units:</label></div>
+                <div class="col-9">
+                    <input id="edit-unit" type="text" pInputText [(ngModel)]="printerCopy.unit" class="w-full">
+                </div>
+            </div>
+            <div class="flex justify-content-between mt-3">
+                <button pButton type="button" label="Save Changes" class="p-button-success" (click)="submitMachineEdit()"
+                        [disabled]="!printerCopy.name || !printerCopy.capacity || !printerCopy.unit"></button>
+                <button pButton type="button" label="Delete Machine" class="p-button-danger" (click)="deleteMachine()"></button>
+            </div>
+        </div>
+    </p-dialog>
+
+    <p-dialog header="Job Entry" 
+              [visible]="enteringJobs()" 
+              (visibleChange)="enteringJobs.set($event)" 
+              [modal]="true" 
+              [draggable]="false" 
+              [resizable]="false">
+        <div class="text-left mb-3">
+            <div class="flex align-items-center gap-2 mb-3">
+                <p-checkbox [ngModel]="useJobsSelect()" 
+                            (ngModelChange)="useJobsSelect.set($event)" 
+                            binary="true" 
+                            inputId="use-jobs" 
+                            (onChange)="changeUseJobs()"></p-checkbox>
+                <label for="use-jobs" class="font-bold">Calculate {{selectedPrinter?.name}} usage using these jobs</label>
+            </div>
+            @if (!addingJob()) { 
+                <button pButton type="button" label="Add New Job" icon="pi pi-plus" class="p-button-sm mb-3" (click)="startAddingJob()"></button> 
+            }
+        </div>
+
+        <p-table [value]="getJobsForSelectedPrinter()" styleClass="job-table p-datatable-sm">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Job Name</th><th>Qty</th><th>Height</th><th>Length</th><th>Sq Ft.</th><th></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-job>
+                @if (!getJobCopy(job)) {
+                    <tr>
+                        <td>{{job.name}}</td><td>{{job.qty}}</td><td>{{job.height}} in.</td><td>{{job.length}} in.</td>
+                        <td>{{getJobSqFt(job) | number:'1.0-2'}}</td>
+                        <td class="job-buttons-cell text-right">
+                            <button pButton type="button" icon="pi pi-pencil" class="p-button-sm mr-1" (click)="startEditingJob(job)"></button>
+                            <button pButton type="button" icon="pi pi-trash" class="p-button-sm p-button-danger" (click)="deleteJob(job)"></button>
+                        </td>
+                    </tr>
+                } @else {
+                    <tr>
+                        <td><input type="text" pInputText [(ngModel)]="getJobCopy(job)!.name" class="w-full"></td>
+                        <td>
+                            <input type="text" pInputText pKeyFilter="num" 
+                                   [ngModel]="getJobCopy(job)!.qty" 
+                                   (ngModelChange)="getJobCopy(job)!.qty = +$event" 
+                                   class="w-full">
+                        </td>
+                        <td>
+                            <input type="text" pInputText pKeyFilter="num" 
+                                   [ngModel]="getJobCopy(job)!.height" 
+                                   (ngModelChange)="getJobCopy(job)!.height = +$event" 
+                                   class="w-full">
+                        </td>
+                        <td>
+                            <input type="text" pInputText pKeyFilter="num" 
+                                   [ngModel]="getJobCopy(job)!.length" 
+                                   (ngModelChange)="getJobCopy(job)!.length = +$event" 
+                                   class="w-full">
+                        </td>
+                        <td>{{getJobSqFt(getJobCopy(job)!) | number:'1.0-2'}}</td>
+                        <td class="job-buttons-cell text-right">
+                            <button pButton type="button" icon="pi pi-check" class="p-button-sm p-button-success mr-1" 
+                                    (click)="submitEditedJob(job)" 
+                                    [disabled]="!getJobCopy(job)!.name || !getJobCopy(job)!.qty || !getJobCopy(job)!.height || !getJobCopy(job)!.length"></button>
+                            <button pButton type="button" icon="pi pi-times" class="p-button-sm p-button-secondary" (click)="cancelJobEdit(job)"></button>
+                        </td>
+                    </tr>
+                }
+            </ng-template>
+            @if (addingJob()) {
+                <ng-template pTemplate="footer">
+                    <tr>
+                        <td><input type="text" pInputText [(ngModel)]="newJob.name" class="w-full"></td>
+                        <td>
+                            <input type="text" pInputText pKeyFilter="num" 
+                                   [ngModel]="newJob.qty" 
+                                   (ngModelChange)="newJob.qty = +$event" class="w-full">
+                        </td>
+                        <td>
+                            <input type="text" pInputText pKeyFilter="num" 
+                                   [ngModel]="newJob.height" 
+                                   (ngModelChange)="newJob.height = +$event" class="w-full">
+                        </td>
+                        <td>
+                            <input type="text" pInputText pKeyFilter="num" 
+                                   [ngModel]="newJob.length" 
+                                   (ngModelChange)="newJob.length = +$event" class="w-full">
+                        </td>
+                        <td>{{getJobSqFt(newJob) | number:'1.0-2'}}</td>
+                        <td class="job-buttons-cell text-right">
+                            <button pButton type="button" icon="pi pi-check" class="p-button-sm p-button-success mr-1" 
+                                    (click)="submitNewJob()" 
+                                    [disabled]="!newJob.name || !newJob.qty || !newJob.height || !newJob.length"></button>
+                            <button pButton type="button" icon="pi pi-times" class="p-button-sm p-button-secondary" (click)="addingJob.set(false)"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+            }
+        </p-table>
+    </p-dialog>
+
+    <p-dialog header="Report Settings" 
+              [visible]="openReportSelect()" 
+              (visibleChange)="openReportSelect.set($event)" 
+              [modal]="true" 
+              [draggable]="false" 
+              [resizable]="false">
+        <div class="flex flex-column gap-3 mt-3">
+            <label class="font-bold">Timeframe:</label>
+            <p-dropdown [options]="reportChoices" 
+                        [ngModel]="reportPeriod()" 
+                        (ngModelChange)="reportPeriod.set($event)" 
+                        styleClass="w-full"></p-dropdown>
+            
+            @if (reportPeriod() === 'custom') {
+                <label class="font-bold mt-2">Start Date:</label>
+                <p-calendar [(ngModel)]="customDateStart" appendTo="body" styleClass="w-full"></p-calendar>
+                
+                <label class="font-bold mt-2">End Date:</label>
+                <p-calendar [(ngModel)]="customDateEnd" appendTo="body" styleClass="w-full"></p-calendar>
+            }
+            
+            <button pButton type="button" label="Generate Report" class="mt-3" (click)="startReport()"
+                    [disabled]="reportPeriod() === 'custom' && (!customDateStart || !customDateEnd)"></button>
+        </div>
+    </p-dialog>
+
+    @if (userLevel() === 'admin' || userLevel() === 'superadmin') {
+        <div class="admin-button-panel flex justify-content-center gap-3 mb-4">
+            @if (!reportMode()) { <button pButton type="button" label="Add New Machine" (click)="addingNewMachine.set(true)"></button> }
+            @if (!reportMode()) { <button pButton type="button" label="Generate Report" class="p-button-secondary" (click)="openReportSelect.set(true)"></button> }
+            @if (reportMode()) { <button pButton type="button" label="Return to Daily View" class="p-button-secondary" (click)="reportMode.set(false)"></button> }
+        </div>
+    }
+
+    @if (!reportMode()) {
+        <div class="flex justify-content-center align-items-center gap-4 mb-4">
+            <i class="pi pi-angle-double-left text-2xl arrow" (click)="changeDateOffset(-1)"></i>
+            <h1 class="m-0">{{selectedDate() | date:'EEEE, MMMM d, yyyy'}}</h1>
+            <i class="pi pi-angle-double-right text-2xl arrow" (click)="changeDateOffset(1)"></i>
+        </div>
+
+        <div class="flex justify-content-center gap-2 mb-4">
+            <p-calendar [(ngModel)]="jumpDate" placeholder="Jump to date..."></p-calendar>
+            <button pButton type="button" label="Go" (click)="jumpToDate()" [disabled]="!jumpDate"></button>
+        </div>
+
+        <p-table [value]="usages()" [loading]="loading()" styleClass="main-table p-datatable-striped">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Machine</th><th>Capacity</th><th>Percentage</th>
+                    @if (getEditingMode()) { <th></th> }
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-usage>
+                <tr>
+                    <td>
+                        <span class="clickable" (click)="openMachineEditSelect(usage)" (mouseenter)="setMachineHoverMessage(usage.printer)" (mouseleave)="setMachineHoverMessage(usage.printer)" [pTooltip]="machineHoverMessage()">
+                            {{usage.printer.name}}
+                        </span>
+                    </td>
+                    @if (!usage.editing) {
+                        <td (click)="!usage.useJobs && usage.editing = true" [ngClass]="{'clickable': !usage.useJobs}" [pTooltip]="!usage.useJobs ? 'Click to edit capacity directly' : 'Capacity generated using Jobs list'">
+                            {{usage.unitsUsed}} / {{usage.printer.capacity}} {{usage.printer.unit}}
+                        </td>
+                    } @else {
+                        <td>
+                            <input type="text" pInputText pKeyFilter="num" 
+                                   [ngModel]="usage.editedUnitsUsed" 
+                                   (ngModelChange)="usage.editedUnitsUsed = +$event"
+                                   (keyup.enter)="updateUnitsUsed(usage)" class="w-full">
+                        </td>
+                    }
+                    <td>{{getPercentage(usage) | percent}}</td>
+                    @if (getEditingMode()) {
+                        <td class="buttons-cell">
+                            @if (usage.editing) {
+                                <button pButton type="button" label="Update" class="p-button-sm p-button-success mr-1" (click)="updateUnitsUsed(usage)"></button>
+                                <button pButton type="button" label="Cancel" class="p-button-sm p-button-secondary" (click)="cancelUnitsUpdate(usage)"></button>
+                            }
+                        </td>
+                    }
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="footer">
+                <tr>
+                    <td class="font-bold">Total Sq. ft.</td>
+                    <td>{{getTotalSqFt() | number}}</td>
+                    <td>@if (!loading()) { <span>{{getTotalPercentage() | percent}}</span> }</td>
+                    @if (getEditingMode()) { <td></td> }
+                </tr>
+            </ng-template>
+        </p-table>
+    } @else {
+        <p-table [value]="printers()" [loading]="loading()" styleClass="main-table p-datatable-striped">
+            <ng-template pTemplate="header">
+                <tr><th>Machine</th><th>%</th></tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-printer>
+                <tr>
+                    <td>{{printer.name}}</td>
+                    <td>@if (reports()) { <span>{{reports()[printer.id] | percent}}</span> }</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="footer">
+                <tr>
+                    <td class="font-bold">Total Percentage</td>
+                    <td>@if (!loading()) { <span>{{getTotalReportPercentage() | percent}}</span> }</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    }
+</div>

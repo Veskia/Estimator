@@ -1,0 +1,88 @@
+:host ::ng-deep {
+  font-family: 'Montserrat', 'Helvetica', arial, serif;
+  font-size: 14px; 
+}
+
+/* Updated navigation styling for modern PrimeNG classes */
+:host ::ng-deep .p-tabmenu {
+  background: #c82127;
+  margin-left: 120px; 
+}
+
+:host ::ng-deep .p-tabmenu .p-tabmenu-nav {
+  padding-top: 10px;
+  margin-right: 90px;
+  background: #c82127;
+  border: none;
+}
+
+:host ::ng-deep .p-tabmenu .p-tabmenu-nav .p-tabmenuitem {
+  background: #c82127;
+  border-color: #c82127;
+  font-size: 15px; 
+}
+
+:host ::ng-deep .p-tabmenu .p-tabmenu-nav .p-tabmenuitem .p-menuitem-link {
+  color: white;
+  background: #c82127;
+  border: none;
+}
+
+:host ::ng-deep .p-tabmenu .p-tabmenu-nav .p-tabmenuitem.p-highlight .p-menuitem-link {
+  background: white;
+  color: #212121;
+  border-bottom: 2px solid #c82127;
+}
+
+:host ::ng-deep i {
+  color: #db2828; 
+}
+
+/* Standardizing button and input colors from your v5 theme */
+:host ::ng-deep .p-button {
+  background: #676767;
+  border-color: transparent; 
+}
+
+:host ::ng-deep .p-button:enabled:hover, :host ::ng-deep .p-button:focus {
+  background-color: #838383;
+  border-color: transparent; 
+}
+
+:host ::ng-deep .p-checkbox-box.p-highlight {
+  background: #c82127;
+  border-color: #9b1a1e; 
+}
+
+:host ::ng-deep .p-radiobutton-box.p-highlight {
+  border-color: #c82127;
+  background: #c82127;
+}
+
+.nav-container {
+  background-color: #c82127;
+  height: 50px;
+  position: relative; 
+}
+
+#logo {
+  position: absolute;
+  top: 5px;
+  left: 15px;
+  width: 100px;
+  z-index: 10; 
+}
+
+.logout-link {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none; 
+}
+
+.logout-link:hover {
+  text-decoration: underline; 
+}

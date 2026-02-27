@@ -1,0 +1,35 @@
+<div class="feedback-div" [ngClass]="{'expanded': isExpanded()}" (click)="isExpanded.set(true)">
+  <div>
+    <i class="pi pi-comments"></i> Feedback
+  </div>
+  
+  @if (isExpanded()) {
+    <i class="pi pi-times close-feedback" (click)="closeFeedback($event)"></i>
+  }
+  
+  @if (isExpanded() && !feedbackSubmitted() && !errorEncountered()) {
+    <textarea pInputTextarea
+              placeholder="(If you have suggestions for how to improve the site, or if you're experiencing errors, please use this form to send feedback.)"
+              [ngModel]="feedbackText()" 
+              (ngModelChange)="feedbackText.set($event)"></textarea>
+              
+    <button pButton
+            type="button"
+            label="Submit"
+            class="p-button-sm mt-2"
+            [disabled]="!feedbackText()"
+            (click)="submitFeedback()"></button>
+  }
+  
+  @if (feedbackSubmitted()) {
+    <div class="response-text">
+      Your feedback has been submitted! Thank you for helping to improve the site. We will email you for more details if necessary.
+    </div>
+  }
+  
+  @if (errorEncountered()) {
+    <div class="response-text">
+      There was an error submitting your feedback. Please email IT directly about this problem.
+    </div>
+  }
+</div>

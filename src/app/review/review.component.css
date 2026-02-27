@@ -1,0 +1,63 @@
+:host ::ng-deep th, :host ::ng-deep tr {
+  padding: 1px !important; 
+}
+
+:host ::ng-deep .p-table {
+  margin-bottom: 1em; 
+}
+
+/* Custom Red Styling for PrimeNG buttons */
+:host ::ng-deep .p-button {
+  background: #c82127;
+  border-color: #c82127;
+}
+
+:host ::ng-deep .p-button:enabled:hover, :host ::ng-deep .p-button:focus {
+  background-color: #e2242b;
+  border-color: #e2242b;
+}
+
+/* Hides navigation buttons during browser printing */
+@media print {
+  .print-hidden {
+    display: none !important; 
+  } 
+}
+
+h1 {
+  font-size: 24px;
+  font-weight: 500; 
+}
+
+label {
+  font-weight: bold; 
+}
+
+.align-left {
+  text-align: left; 
+}
+
+.centered {
+  text-align: center; 
+}
+
+.customer-information {
+  text-align: left;
+  margin-top: 2em;
+  border: 1px solid #D9D9E5;
+  padding-left: 0.5em; 
+}
+
+.main {
+  margin-top: 1em;
+  text-align: center; 
+}
+
+.review-div {
+  width: 850px;
+  margin: 0 auto; 
+}
+
+p {
+  margin: 0; 
+}

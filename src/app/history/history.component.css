@@ -1,0 +1,34 @@
+:host ::ng-deep .align-left {
+  text-align: left; 
+}
+:host ::ng-deep .p-table {
+  margin-top: 1em; 
+}
+:host ::ng-deep th .p-multiselect, :host ::ng-deep th .p-inputtext {
+  width: 100%; 
+}
+:host ::ng-deep .dropdown-filter {
+  width: 100%; 
+}
+:host ::ng-deep .dropdown-filter .p-dropdown {
+  width: 100%; 
+}
+:host ::ng-deep .column-select {
+  display: inline-block; 
+}
+:host ::ng-deep .p-multiselect {
+  top: 5px; 
+}
+:host ::ng-deep .company-select {
+  display: inline;
+  margin-bottom: 1em; 
+}
+
+.main {
+  margin: 1em;
+  height: 85vh; 
+}
+
+.bolded {
+  font-weight: bold; 
+}

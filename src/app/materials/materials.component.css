@@ -1,0 +1,160 @@
+:host ::ng-deep tr {
+  width: 100%; }
+:host ::ng-deep th {
+  padding: 4px !important; }
+:host ::ng-deep .ui-table .fa-check:before {
+  content: "\F00D"; }
+:host ::ng-deep .ui-table-loading-content {
+  margin-top: 200px; }
+:host ::ng-deep .inactive-row td {
+  background-color: #eecddc !important; }
+:host ::ng-deep .float-left {
+  float: left; }
+:host ::ng-deep .align-left {
+  text-align: left; }
+:host ::ng-deep .align-right {
+  text-align: right; }
+:host ::ng-deep .centered {
+  text-align: center; }
+:host ::ng-deep .add-button {
+  margin-left: 1em; }
+:host ::ng-deep .ui-dialog .ui-dropdown {
+  min-width: 150px;
+  max-width: 50%; }
+:host ::ng-deep .ui-dropdown {
+  text-align: left; }
+:host ::ng-deep .ui-table {
+  margin-top: 1em; }
+:host ::ng-deep .superadmin .active-col {
+  width: 2%; }
+:host ::ng-deep .superadmin .name-col {
+  width: 14%; }
+:host ::ng-deep .superadmin .multiplier-col {
+  width: 5%; }
+:host ::ng-deep .superadmin .price-col {
+  width: 4%; }
+:host ::ng-deep .superadmin .prices-col {
+  width: 28%; }
+:host ::ng-deep .superadmin .scrap-col {
+  width: 4%; }
+:host ::ng-deep .superadmin .width-col {
+  width: 2%; }
+:host ::ng-deep .superadmin .widths-col {
+  width: 8%; }
+:host ::ng-deep .superadmin .margin-col {
+  width: 4%; }
+:host ::ng-deep .superadmin .startsqft-col {
+  width: 5%; }
+:host ::ng-deep .superadmin .diecut-col {
+  width: 5%; }
+:host ::ng-deep .superadmin .lamination-col {
+  width: 6%; }
+:host ::ng-deep .superadmin .materialtype-col {
+  width: 5%; }
+:host ::ng-deep .superadmin .weight-col {
+  width: 4%; }
+:host ::ng-deep .superadmin .update-col {
+  width: 5%; }
+:host ::ng-deep .superadmin .button-col {
+  width: 5%; }
+:host ::ng-deep .admin .name-col {
+  width: 14%; }
+:host ::ng-deep .admin .multiplier-col {
+  width: 5%; }
+:host ::ng-deep .admin .price-col {
+  width: 4%; }
+:host ::ng-deep .admin .prices-col {
+  width: 28%; }
+:host ::ng-deep .admin .scrap-col {
+  width: 4%; }
+:host ::ng-deep .admin .width-col {
+  width: 2%; }
+:host ::ng-deep .admin .widths-col {
+  width: 8%; }
+:host ::ng-deep .admin .margin-col {
+  width: 4%; }
+:host ::ng-deep .admin .startsqft-col {
+  width: 5%; }
+:host ::ng-deep .admin .diecut-col {
+  width: 5%; }
+:host ::ng-deep .admin .lamination-col {
+  width: 6%; }
+:host ::ng-deep .admin .materialtype-col {
+  width: 5%; }
+:host ::ng-deep .admin .weight-col {
+  width: 4%; }
+:host ::ng-deep .admin .update-col {
+  width: 7%; }
+:host ::ng-deep .admin .button-col {
+  width: 5%; }
+:host ::ng-deep .salesgh .name-col, :host ::ng-deep .manager .name-col {
+  width: 16%; }
+:host ::ng-deep .salesgh .multiplier-col, :host ::ng-deep .manager .multiplier-col {
+  width: 5%; }
+:host ::ng-deep .salesgh .price-col, :host ::ng-deep .manager .price-col {
+  width: 5%; }
+:host ::ng-deep .salesgh .prices-col, :host ::ng-deep .manager .prices-col {
+  width: 35%; }
+:host ::ng-deep .salesgh .scrap-col, :host ::ng-deep .manager .scrap-col {
+  width: 4%; }
+:host ::ng-deep .salesgh .width-col, :host ::ng-deep .manager .width-col {
+  width: 3%; }
+:host ::ng-deep .salesgh .widths-col, :host ::ng-deep .manager .widths-col {
+  width: 12%; }
+:host ::ng-deep .salesgh .margin-col, :host ::ng-deep .manager .margin-col {
+  width: 5%; }
+:host ::ng-deep .salesgh .startsqft-col, :host ::ng-deep .manager .startsqft-col {
+  width: 5%; }
+:host ::ng-deep .salesgh .diecut-col, :host ::ng-deep .manager .diecut-col {
+  width: 5%; }
+:host ::ng-deep .salesgh .lamination-col, :host ::ng-deep .manager .lamination-col {
+  width: 5%; }
+:host ::ng-deep .salesgh .materialtype-col, :host ::ng-deep .manager .materialtype-col {
+  width: 5%; }
+:host ::ng-deep .salesgh .weight-col, :host ::ng-deep .manager .weight-col {
+  width: 3%; }
+:host ::ng-deep .bigsigns .name-col {
+  width: 27%; }
+:host ::ng-deep .bigsigns .width-col {
+  width: 5%; }
+:host ::ng-deep .bigsigns .widths-col {
+  width: 20%; }
+:host ::ng-deep .bigsigns .margin-col {
+  width: 8%; }
+:host ::ng-deep .bigsigns .startsqft-col {
+  width: 10%; }
+:host ::ng-deep .bigsigns .diecut-col {
+  width: 8%; }
+:host ::ng-deep .bigsigns .lamination-col {
+  width: 10%; }
+:host ::ng-deep .bigsigns .materialtype-col {
+  width: 10%; }
+:host ::ng-deep .bigsigns .weight-col {
+  width: 7%; }
+:host ::ng-deep .ui-table-scrollable-body {
+  overflow-y: scroll; }
+
+h1 {
+  font-size: 14px;
+  text-decoration: underline;
+  font-weight: normal; }
+
+label {
+  font-weight: bold; }
+
+.main {
+  margin: 1em;
+  height: 85vh; }
+
+@media print {
+  /* print styling */
+  :host ::ng-deep .ui-table-scrollable-body {
+    max-height: none !important; }
+  :host ::ng-deep .button-col {
+    display: none !important; }
+  :host ::ng-deep .add-button {
+    display: none !important; }
+  :host ::ng-deep .ui-table {
+    font-size: 10px !important; } }
+
+/*# sourceMappingURL=materials.component.css.map */

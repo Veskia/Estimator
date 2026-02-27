@@ -1,0 +1,59 @@
+:host ::ng-deep tbody tr {
+  height: 34px; 
+}
+:host ::ng-deep .main-table.p-datatable {
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto; 
+}
+:host ::ng-deep table .p-inputtext {
+  width: 100%; 
+}
+:host ::ng-deep .clickable {
+  color: #c82127;
+  font-weight: bold; 
+}
+:host ::ng-deep .clickable:hover {
+  cursor: pointer;
+  color: #a52a45; 
+}
+:host ::ng-deep .buttons-cell {
+  white-space: nowrap; 
+}
+:host ::ng-deep .bolded {
+  font-weight: bold; 
+}
+:host ::ng-deep .p-calendar {
+  margin-bottom: 10px; 
+}
+:host ::ng-deep .job-table {
+  margin-top: 10px; 
+}
+:host ::ng-deep .p-dialog {
+  max-width: 80%; 
+}
+:host ::ng-deep .job-buttons-cell button {
+  margin-top: 3px; 
+}
+
+.main {
+  text-align: center;
+  margin-top: 2em; 
+}
+
+h1 {
+  font-size: 24px;
+  font-weight: normal; 
+}
+
+.arrow {
+  cursor: pointer; 
+}
+
+.arrow:hover {
+  color: #a52a45; 
+}
+
+.admin-button-panel {
+  margin-bottom: 10px;
+}

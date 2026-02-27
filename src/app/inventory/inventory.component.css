@@ -1,0 +1,58 @@
+:host ::ng-deep .add-modal {
+  min-width: 30vw; 
+}
+:host ::ng-deep .align-left {
+  text-align: left; 
+}
+:host ::ng-deep .float-left {
+  float: left; 
+}
+:host ::ng-deep .float-right {
+  float: right; 
+}
+:host ::ng-deep .centered {
+  text-align: center; 
+}
+:host ::ng-deep .p-table {
+  margin-top: 1em;
+  margin-bottom: 3em; 
+}
+:host ::ng-deep input, :host ::ng-deep textarea {
+  width: 100%; 
+}
+:host ::ng-deep .p-dropdown {
+  max-width: 100%; 
+}
+:host ::ng-deep .material-cell {
+  width: 250px; 
+}
+:host ::ng-deep .clickable {
+  color: #c82127;
+  font-weight: bold; 
+}
+:host ::ng-deep .clickable:hover {
+  cursor: pointer;
+  color: #a52a45; 
+}
+:host ::ng-deep .buttons-cell button {
+  margin-top: 3px; 
+}
+:host ::ng-deep .chart-cell {
+  width: 40px;
+  cursor: pointer; 
+}
+:host ::ng-deep .graph-dialog {
+  width: 50vw; 
+}
+:host ::ng-deep .old-user-dropdown {
+  min-width: 100px; 
+}
+
+.main {
+  margin: 1em;
+  height: 85vh; 
+}
+
+label {
+  font-weight: bold; 
+}

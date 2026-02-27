@@ -1,0 +1,220 @@
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>
+
+<p-dialog header="Add Material" [visible]="addMaterialDialog()" (visibleChange)="addMaterialDialog.set($event)" [draggable]="false" [resizable]="false" [modal]="true">
+    <div class="centered">
+        <div class="ui-g align-left flex gap-4">
+            <div class="ui-g-4">
+                <p>
+                    <label for="new-name">Name:</label>
+                    <input id="new-name" type="text" pInputText [ngModel]="newMaterial().name" (ngModelChange)="updateNewMaterial('name', $event)">
+                </p>
+                <p>
+                    <label for="new-multiplier">Multiplier:</label>
+                    <input id="new-multiplier" type="text" pInputText pKeyFilter="num" 
+                           [ngModel]="newMaterial().multiplier" 
+                           (ngModelChange)="updateNewMaterial('multiplier', +$event)">
+                </p>
+                <h3>Prices by Sq. Ft.</h3>
+                <p>
+                    <label for="new-32">32:</label>
+                    <input id="new-32" type="text" pInputText pKeyFilter="num" 
+                           [ngModel]="newMaterial().c32" 
+                           (ngModelChange)="updateNewMaterial('c32', +$event)">
+                </p>
+                <p>
+                    <label for="new-c100">100:</label>
+                    <input id="new-c100" type="text" pInputText pKeyFilter="num" 
+                           [ngModel]="newMaterial().c100" 
+                           (ngModelChange)="updateNewMaterial('c100', +$event)">
+                </p>
+                <p>
+                    <label for="new-c500">500:</label>
+                    <input id="new-c500" type="text" pInputText pKeyFilter="num" 
+                           [ngModel]="newMaterial().c500" 
+                           (ngModelChange)="updateNewMaterial('c500', +$event)">
+                </p>
+                <p>
+                    <label for="new-c1000">1000:</label>
+                    <input id="new-c1000" type="text" pInputText pKeyFilter="num" 
+                           [ngModel]="newMaterial().c1000" 
+                           (ngModelChange)="updateNewMaterial('c1000', +$event)">
+                </p>
+                <p>
+                    <label for="new-c2500">2500:</label>
+                    <input id="new-c2500" type="text" pInputText pKeyFilter="num" 
+                           [ngModel]="newMaterial().c2500" 
+                           (ngModelChange)="updateNewMaterial('c2500', +$event)">
+                </p>
+                <p>
+                    <label for="new-c5000">5000:</label>
+                    <input id="new-c5000" type="text" pInputText pKeyFilter="num" 
+                           [ngModel]="newMaterial().c5000" 
+                           (ngModelChange)="updateNewMaterial('c5000', +$event)">
+                </p>
+                <p>
+                    <label for="new-c10000">10000:</label>
+                    <input id="new-c10000" type="text" pInputText pKeyFilter="num" 
+                           [ngModel]="newMaterial().c10000" 
+                           (ngModelChange)="updateNewMaterial('c10000', +$event)">
+                </p>
+            </div>
+            <div class="ui-g-4">
+                <p>
+                    <label for="new-scrap">Scrap %:</label>
+                    <input id="new-scrap" type="text" pInputText pKeyFilter="num" 
+                           [ngModel]="newMaterial().scrap" 
+                           (ngModelChange)="updateNewMaterial('scrap', +$event)">
+                </p>
+                <p>
+                    <label for="new-width">Width (in):</label>
+                    <input id="new-width" type="text" pInputText pKeyFilter="num" 
+                           [ngModel]="newMaterial().width" 
+                           (ngModelChange)="updateNewMaterial('width', +$event)">
+                </p>
+                <p>
+                    <label for="new-width2">Alt Width 2:</label>
+                    <input id="new-width2" type="text" pInputText [ngModel]="newMaterial().width2" (ngModelChange)="updateNewMaterial('width2', +$event)">
+                </p>
+                <p>
+                    <label for="new-width3">Alt Width 3:</label>
+                    <input id="new-width3" type="text" pInputText [ngModel]="newMaterial().width3" (ngModelChange)="updateNewMaterial('width3', +$event)">
+                </p>
+                <p>
+                    <label for="new-width4">Alt Width 4:</label>
+                    <input id="new-width4" type="text" pInputText [ngModel]="newMaterial().width4" (ngModelChange)="updateNewMaterial('width4', +$event)">
+                </p>
+                <p>
+                    <label for="new-margin">Margin (in):</label>
+                    <input id="new-margin" type="text" pInputText pKeyFilter="num" 
+                           [ngModel]="newMaterial().margin" 
+                           (ngModelChange)="updateNewMaterial('margin', +$event)">
+                </p>
+                <p>
+                    <label for="new-startingSqFt">Start Sq Ft:</label>
+                    <input id="new-startingSqFt" type="text" pInputText pKeyFilter="num" 
+                           [ngModel]="newMaterial().startingSqFt" 
+                           (ngModelChange)="updateNewMaterial('startingSqFt', +$event)">
+                </p>
+            </div>
+            <div class="ui-g-4">
+                <p>
+                    <label>Diecut:</label>
+                    <p-dropdown [options]="[{label:'Yes', value:true}, {label:'No', value:false}]" 
+                                [ngModel]="newMaterial().diecut" 
+                                (ngModelChange)="updateNewMaterial('diecut', $event)" 
+                                [style]="{'width':'100%'}"></p-dropdown>
+                </p>
+                <p>
+                    <label>Lamination:</label>
+                    <p-dropdown [options]="[{label:'Yes', value:'1'}, {label:'No', value:'0'}, {label:'Auto', value:'A'}]" 
+                                [ngModel]="newMaterial().laminate" 
+                                (ngModelChange)="updateNewMaterial('laminate', $event)" 
+                                [style]="{'width':'100%'}"></p-dropdown>
+                </p>
+                <p>
+                    <label>Material Type:</label>
+                    <p-dropdown [options]="materialTypes" 
+                                [ngModel]="newMaterial().materialType" 
+                                (ngModelChange)="updateNewMaterial('materialType', $event)" 
+                                [style]="{'width':'100%'}"></p-dropdown>
+                </p>
+                <p>
+                    <label>Weight (lbs):</label>
+                    <input id="new-weight" type="text" pInputText [ngModel]="newMaterial().weight" (ngModelChange)="updateNewMaterial('weight', +$event)">
+                </p>
+                <p>
+                    <label>Company:</label>
+                    <p-dropdown [options]="[{label:'GH', value:'gh'}, {label:'BigSigns', value:'bigsigns'}]" 
+                                [ngModel]="newMaterial().company" 
+                                (ngModelChange)="updateNewMaterial('company', $event)" 
+                                [style]="{'width':'100%'}"></p-dropdown>
+                </p>
+            </div>
+        </div>
+        <div class="mt-4">
+            <button pButton type="button" label="Submit" icon="pi pi-check" 
+                    [disabled]="!materialComplete(newMaterial())" 
+                    (click)="submitNewMaterial(newMaterial())"></button>
+        </div>
+    </div>
+</p-dialog>
+
+@if (userLevel() === 'superadmin') {
+    <div class="top-button-container">
+        <button pButton type="button" icon="pi pi-plus" label="Add Material" class="add-button" (click)="addMaterialDialog.set(true)"></button>
+    </div>
+}
+
+<div class="main">
+    <p-table #dt [value]="filteredMaterials()" [rowTrackBy]="rowTrackBy" [loading]="loading()"
+             styleClass="p-datatable-striped p-datatable-gridlines p-datatable-sm"
+             [scrollable]="true" scrollHeight="calc(100vh - 200px)">
+        
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="name">Material <p-sortIcon field="name"></p-sortIcon></th>
+                <th pSortableColumn="multiplier">Mult <p-sortIcon field="multiplier"></p-sortIcon></th>
+                <th>8</th><th>20</th><th>21</th><th>32</th><th>100</th><th>500</th>
+                @if (userLevel() === 'admin' || userLevel() === 'superadmin') {
+                    <th>1000</th><th>2500</th><th>5000</th><th>10000</th>
+                    <th>Scrap</th><th>W1</th><th>W2</th><th>W3</th><th>W4</th>
+                    <th>Margin</th><th>Start</th><th>Die</th><th>Lam</th><th>Type</th><th>Weight</th>
+                    <th>Update</th>
+                }
+                @if (userLevel() === 'superadmin') { <th>Actions</th> }
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-material>
+            <tr>
+                <td class="name-col">{{material.name}}</td>
+                
+                <td pEditableColumn class="multiplier-col">
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input type="text" pInputText pKeyFilter="num" 
+                                   [ngModel]="material.multiplier" 
+                                   (ngModelChange)="material.multiplier = +$event" required 
+                                   (blur)="editCell(material, 'multiplier', material.multiplier)" 
+                                   (keydown.enter)="editCell(material, 'multiplier', material.multiplier)">
+                        </ng-template>
+                        <ng-template pTemplate="output">{{material.multiplier}}</ng-template>
+                    </p-cellEditor>
+                </td>
+
+                <td pEditableColumn class="price-col">
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input type="text" pInputText pKeyFilter="num" 
+                                   [ngModel]="material.c32" (ngModelChange)="material.c32 = +$event" required
+                                   (blur)="editCell(material, 'c32', material.c32)">
+                        </ng-template>
+                        <ng-template pTemplate="output">{{material.c32 | currency}}</ng-template>
+                    </p-cellEditor>
+                </td>
+
+                @if (userLevel() === 'admin' || userLevel() === 'superadmin') {
+                    <td class="scrap-col">{{material.scrap}}%</td>
+                    <td class="width-col">{{material.width}}</td>
+                    <td class="width-col">{{material.width2}}</td>
+                    <td class="width-col">{{material.width3}}</td>
+                    <td class="width-col">{{material.width4}}</td>
+                    <td class="margin-col">{{material.margin}} in.</td>
+                    <td class="startsqft-col">{{material.startingSqFt}}</td>
+                    <td class="diecut-col">{{material.diecut ? 'Yes' : 'No'}}</td>
+                    <td class="lamination-col">{{fullLaminationWord(material.laminate)}}</td>
+                    <td class="materialtype-col">{{materialTypeDisplay(material.materialType)}}</td>
+                    <td class="weight-col">{{material.weight}}@if (material.weight) {<span> lbs</span>}</td>
+                    <td class="update-col">{{material.lastUpdate | date: 'M-d-yyyy h:mm a'}}</td>
+                }
+
+                @if (userLevel() === 'superadmin') {
+                    <td class="button-col">
+                        <button pButton type="button" icon="pi pi-trash" class="p-button-danger p-button-sm" (click)="delete(material)"></button>
+                    </td>
+                }
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

@@ -1,0 +1,48 @@
+<p-toast></p-toast>
+
+<div class="main-container flex p-4 gap-4">
+    <div class="input-col flex-1">
+        <div class="mb-3">
+            <label class="font-bold block mb-1">Quantity:</label>
+            <input type="text" pInputText pKeyFilter="num" 
+                   [ngModel]="quantity" 
+                   (ngModelChange)="quantity = +$event" 
+                   (keyup)="quantityUpdate()" class="w-full">
+        </div>
+
+        <div class="flex gap-3 mb-3">
+            <div class="flex-1">
+                <label class="font-bold block mb-1">Height (in):</label>
+                <input type="text" pInputText pKeyFilter="num" 
+                       [ngModel]="height" 
+                       (ngModelChange)="height = +$event" 
+                       (keyup)="heightWidthUpdate()" class="w-full">
+            </div>
+            <div class="flex-1">
+                <label class="font-bold block mb-1">Width (in):</label>
+                <input type="text" pInputText pKeyFilter="num" 
+                       [ngModel]="width" 
+                       (ngModelChange)="width = +$event" 
+                       (keyup)="heightWidthUpdate()" class="w-full">
+            </div>
+        </div>
+
+        @if (scrap === 'manual') {
+            <div class="mb-3">
+                <label class="font-bold block mb-1">Manual Scrap %:</label>
+                <input type="text" pInputText pKeyFilter="num" 
+                       [ngModel]="manualScrap" 
+                       (ngModelChange)="manualScrap = +$event" 
+                       (keyup)="completeUpdate()" class="w-full">
+            </div>
+        }
+    </div>
+
+    <div class="results-col flex-1 p-4 shadow-1 border-round bg-white">
+        <h2 class="mt-0">Summary</h2>
+        <div class="text-2xl font-bold text-red-600 mb-2">Wholesale: {{ wholesaleTotal | currency }}</div>
+        <div class="text-xl text-gray-700">Retail: {{ retailTotal | currency }}</div>
+        <hr>
+        <div class="text-sm text-gray-500">Sq. Ft. Each: {{ sqFtEach | number:'1.0-2' }}</div>
+    </div>
+</div>

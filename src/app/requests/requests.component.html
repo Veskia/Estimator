@@ -1,0 +1,57 @@
+<p-toast></p-toast>
+
+<div class="main">
+    <p-table #dt [value]="requests()" [scrollable]="true">
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon></th>
+                <th pSortableColumn="firstName">First Name <p-sortIcon field="firstName"></p-sortIcon></th>
+                <th pSortableColumn="lastName">Last Name <p-sortIcon field="lastName"></p-sortIcon></th>
+                <th pSortableColumn="company">Company <p-sortIcon field="company"></p-sortIcon></th>
+                <th>Notes</th>
+                <th pSortableColumn="level">User Level <p-sortIcon field="level"></p-sortIcon></th>
+                <th></th>
+            </tr>
+        </ng-template>
+        
+        <ng-template pTemplate="body" let-request>
+            <tr>
+                <td>{{request.email}}</td>
+                <td>{{request.firstName}}</td>
+                <td>{{request.lastName}}</td>
+                <td>{{request.company}}</td>
+                <td>{{request.notes}}</td>
+                <td>
+                    <p-dropdown [options]="userLevels()"
+                                [(ngModel)]="request.level"
+                                placeholder="Select user level"
+                                appendTo="body"
+                                styleClass="w-full"></p-dropdown>
+                </td>
+                <td>
+                    <div class="flex gap-2">
+                        <button pButton type="button"
+                                label="Confirm"
+                                icon="pi pi-check"
+                                class="p-button-sm p-button-success"
+                                [disabled]="request.level === undefined"
+                                (click)="acceptUser(request)"></button>
+                        <button pButton type="button" 
+                                label="Deny" 
+                                icon="pi pi-times" 
+                                class="p-button-sm p-button-danger" 
+                                (click)="denyUser(request)"></button>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+        
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="7" class="text-center p-4 font-bold text-lg text-gray-500">
+                    There are no user requests at this time.
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

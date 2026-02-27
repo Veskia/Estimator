@@ -1,0 +1,474 @@
+<p-toast></p-toast>
+<p-confirmDialog appendTo="body"></p-confirmDialog>
+
+<p-dialog header="Reorder References" [(visible)]="changeReferenceOrder" modal="true" appendTo="body" [draggable]="false">
+    <p>Click and drag to change the order that the references appear in.</p>
+    <p>To save your changes, click the 'Save' button at the bottom of this dialog when you are finished.</p>
+    
+    <div [sortablejs]="referencesCopy">
+        @for (reference of referencesCopy; track reference.id) {
+            <div class="drag-sort-div">{{reference.caption}}</div>
+        }
+    </div>
+
+    <button pButton icon="pi pi-check" label="Save" class="p-button-success pull-right" (click)="saveReferenceOrder()"></button>
+    <button pButton icon="pi pi-times" label="Cancel" class="p-button-danger pull-right" (click)="changeReferenceOrder = false"></button>
+</p-dialog>
+
+<div class="toolbar-container">
+    @if (toolbarSelection() === 'Thickness') {
+        <div>
+            <p-table [value]="thicknessArr" sortField="bondLedger">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Bond Ledger</th><th>Offset Text</th><th>Cover</th><th>Tag</th>
+                        <th>Index</th><th>Points</th><th>Caliper (in.)</th><th>Metric</th><th>(grams/sq meter)</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-thickness>
+                    <tr>
+                        <td>{{thickness.bondLedger}}</td><td>{{thickness.offsetText}}</td><td>{{thickness.cover}}</td>
+                        <td>{{thickness.tag}}</td><td>{{thickness.index}}</td><td>{{thickness.points}}</td>
+                        <td>{{thickness.caliper}}</td><td>{{thickness.metric}}</td><td>{{thickness.gsm}} gsm</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    }
+
+    @if (toolbarSelection() === 'Wind Load') {
+        <div class="centered">
+            <div class="ui-g grid">
+                <div class="ui-g-6 col-6">
+                    <p><label class="bolded">Height:</label> <span>{{rounded(height()!, 2)}}</span></p>
+                    <p><label class="bolded">Sq Ft:</label> <span>{{rounded(sqFt(), 2)}}</span></p>
+                </div>
+                <div class="ui-g-6 col-6">
+                    <p><label class="bolded">Width:</label> <span>{{rounded(width()!, 2)}}</span></p>
+                    <p><label class="bolded">Load #:</label> <span>{{rounded(loadNum(), 2)}}</span></p>
+                </div>
+            </div>
+            
+            <p class="section-header">Wind Load on Grommet:</p>
+            <div class="ui-g grid">
+                <div class="ui-g-6 col-6">
+                    <label>Number of Grommets:</label>
+                    <input type="text" pInputText [(ngModel)]="grommets"/>
+                </div>
+                <div class="ui-g-6 col-6">
+                    <label class="bolded">Load per Grommet (lbs):</label>
+                    <span>{{rounded(grommetLoad(), 2)}}</span>
+                </div>
+            </div>
+
+            <p class="section-header">Wind Load on Fixtures (i.e. Poles):</p>
+            <div class="ui-g grid">
+                <div class="ui-g-6 col-6">
+                    <label>Number of Fixtures/Poles:</label>
+                    <input type="text" pInputText [(ngModel)]="fixtures"/>
+                </div>
+                <div class="ui-g-6 col-6">
+                    <label class="bolded">Load per Lbs per Fixtures:</label>
+                    <span>{{rounded(fixtureLoad(), 2)}}</span>
+                </div>
+            </div>
+
+            <p class="section-header">Wind Load on Pocketed Banner per Linear ft:</p>
+            <div class="ui-g grid">
+                <div class="ui-g-6 col-6">
+                    <label>Linear inches of Pole Pocket:</label>
+                    <input type="text" pInputText [(ngModel)]="pocketIn"/>
+                </div>
+                <div class="ui-g-6 col-6">
+                    <label class="bolded">Load per Lbs per inch:</label>
+                    <span>{{rounded(lbsLoad(), 2)}}</span>
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (toolbarSelection() === 'Weights') {
+        <div class="centered">
+            <div class="ui-g grid">
+                <div class="ui-g-4 col-4">
+                    <label class="bolded">Quantity:</label> <span>{{quantity()}}</span>
+                </div>
+                <div class="ui-g-4 col-4">
+                    <label class="bolded">SqFt:</label> <span>{{rounded(sqFt(), 2)}}</span>
+                </div>
+                <div class="ui-g-4 col-4">
+                    <label class="bolded">Total:</label> <span>{{rounded(totalSqFt(), 2)}}</span>
+                </div>
+            </div>
+            
+            <p>
+                <label class="bolded">Product:</label>
+                @if (material()) { <span>{{material()!.name}}</span> }
+            </p>
+            
+            @if (material() && material()!.weight !== null) {
+                <p>
+                    <label class="bolded">Total Weight Minus Packaging:</label>
+                    <span>{{rounded(weight(), 2)}}</span>
+                </p>
+            } @else {
+                <p class="bolded">Weight Unknown</p>
+            }
+        </div>
+    }
+
+    @if (toolbarSelection() === 'In-Between') {
+        <div class="centered">
+            <p>Calculate the price for a quantity in between a standard number of quantities and prices.</p>
+            <p>
+                <label>Quantity Value A:</label> <input type="text" pInputText [(ngModel)]="qtyA">
+                $ <input type="text" pInputText [(ngModel)]="priceA">
+            </p>
+            <p>
+                <label>Quantity Value B:</label> <input type="text" pInputText [(ngModel)]="qtyB">
+                $ <input type="text" pInputText [(ngModel)]="priceB">
+            </p>
+            <p>
+                <label>Quantity Needed:</label> <input type="text" pInputText [(ngModel)]="qtyNeeded">
+            </p>
+            <p>
+                <label class="bolded">Price:</label> <span>{{betweenPrice() | currency}}</span>
+            </p>
+        </div>
+    }
+
+    @if (toolbarSelection() === 'Rigid') {
+        <div>
+            <div class="centered">
+                <h1>RIGID PRICING PER SHEET Direct Print Charged at full yield</h1>
+                <p class="red">CRATING CHARGE $75 (up to 4x8)</p>
+            </div>
+            <p-table [value]="rigidArr" sortField="name">
+                <ng-template pTemplate="header">
+                    <tr><th></th><th>S/S</th><th>D/S</th></tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rigid>
+                    <tr>
+                        <td class="bolded">{{rigid.name}}</td>
+                        <td>{{rigid.ss | currency}}</td>
+                        <td>{{rigid.ds | currency}}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+
+            <div class="ui-g grid mt-3">
+                <div class="ui-g-5 col-5 bolded">
+                    <p>Cut Per Piece(straight)</p><p>Digital diecut the board</p><p>Max print size for diecut</p>
+                    <p>Add lamination to first board</p><p>Additional board(s) laminated same order - add for each</p>
+                </div>
+                <div class="ui-g-7 col-7">
+                    <p>$4.00</p><p>$50</p><p>46"x94"</p><p>$50</p><p>$36</p>
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (toolbarSelection() === 'Reference') {
+        <div class="reference-div centered">
+            <a href="https://docs.google.com/spreadsheets/d/1xCvHQCalAIcXDP2_KM6Ld4FoD7gDo6ynhipY-OShMC4/pubhtml?widget=true&headers=false" target="_blank">
+                Open in new tab
+            </a>
+
+            @if (addNewReference) {
+                <div>
+                    <label class="bolded">Table:</label> <p-radioButton name="ref-type" value="table" [(ngModel)]="newReferenceType"></p-radioButton>
+                    <label class="bolded ml-3">Text:</label> <p-radioButton name="ref-type" value="text" [(ngModel)]="newReferenceType"></p-radioButton>
+                    <p><label>Title:</label> <input type="text" pInputText [(ngModel)]="newReferenceCaption" placeholder="Required"></p>
+                    
+                    @if (newReferenceType === 'table') {
+                        <div class="ui-g grid mb-2">
+                            <div class="ui-g-6 col-6">
+                                <button pButton icon="pi pi-plus" label="Add Row" (click)="newTableReference.addRow()"></button>
+                                <button pButton icon="pi pi-minus" label="Remove Row" [disabled]="newTableReference.rows.length <= 1" (click)="newTableReference.removeRow()"></button>
+                            </div>
+                            <div class="ui-g-6 col-6">
+                                <button pButton icon="pi pi-plus" label="Add Column" (click)="newTableReference.addCol()"></button>
+                                <button pButton icon="pi pi-minus" label="Remove Column" [disabled]="newTableReference.cols.length <= 1" (click)="newTableReference.removeCol()"></button>
+                            </div>
+                        </div>
+                        <p-table [value]="newTableReference.rows">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    @for (col of newTableReference.cols; track col.field) {
+                                        <th pEditableColumn>
+                                            <p-cellEditor>
+                                                <ng-template pTemplate="input"><input type="text" pInputText [(ngModel)]="col.header"></ng-template>
+                                                <ng-template pTemplate="output">{{col.header}}</ng-template>
+                                            </p-cellEditor>
+                                        </th>
+                                    }
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-row>
+                                <tr>
+                                    @for (col of newTableReference.cols; track col.field) {
+                                        <td pEditableColumn>
+                                            <p-cellEditor>
+                                                <ng-template pTemplate="input"><input type="text" pInputText [(ngModel)]="row[col.field]"></ng-template>
+                                                <ng-template pTemplate="output">{{row[col.field]}}</ng-template>
+                                            </p-cellEditor>
+                                        </td>
+                                    }
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    }
+                    @if (newReferenceType === 'text') {
+                        <textarea pInputTextarea [rows]="8" class="new-textarea" [(ngModel)]="newTextReference.data"></textarea>
+                    }
+                </div>
+            }
+
+            <p class="mt-3">
+                @if (addNewReference) {
+                    <button pButton icon="pi pi-check" label="Submit" (click)="submitNewReference()" [disabled]="!newReferenceCaption"></button>
+                    <button pButton icon="pi pi-times" label="Cancel" class="p-button-danger ml-2" (click)="addNewReference = false"></button>
+                }
+                @if (!addNewReference && (userView() === 'admin' || userView() === 'superAdmin')) {
+                    <button pButton icon="pi pi-plus" label="Add New Reference" (click)="initializeNewReferences()"></button>
+                    <button pButton icon="pi pi-sort" label="Reorder References" class="p-button-secondary ml-2" (click)="initializeReferenceReorder()"></button>
+                }
+            </p>
+
+            @for (reference of references(); track reference.id) {
+                <div class="ref-div" [attr.id]="'reference' + reference.id">
+                    @if (reference.editing) {
+                        <p><label>Title:</label> <input type="text" pInputText [(ngModel)]="reference.caption" placeholder="Required"></p>
+                    }
+
+                    @if (reference.isTable() && !reference.editing) {
+                        <p-table [value]="reference.rows">
+                            <ng-template pTemplate="caption">{{reference.caption}}</ng-template>
+                            @if (hasHeaderContent(reference.cols)) {
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        @for (col of reference.cols; track col.field) { <th>{{col.header}}</th> }
+                                    </tr>
+                                </ng-template>
+                            }
+                            <ng-template pTemplate="body" let-row>
+                                <tr>
+                                    @for (col of reference.cols; track col.field) { <td>{{ row[col.field] }}</td> }
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    }
+
+                    @if (reference.isTable() && reference.editing) {
+                        <div class="ui-g grid mb-2">
+                            <div class="ui-g-6 col-6">
+                                <button pButton icon="pi pi-plus" label="Add Row" (click)="reference.addRow()"></button>
+                                <button pButton icon="pi pi-minus" label="Remove Row" [disabled]="reference.rows.length <= 1" (click)="reference.removeRow()"></button>
+                            </div>
+                            <div class="ui-g-6 col-6">
+                                <button pButton icon="pi pi-plus" label="Add Column" (click)="reference.addCol()"></button>
+                                <button pButton icon="pi pi-minus" label="Remove Column" [disabled]="reference.cols.length <= 1" (click)="reference.removeCol()"></button>
+                            </div>
+                        </div>
+                        <p-table [value]="reference.rows">
+                            <ng-template pTemplate="caption">**EDITING** (Click any cell to edit its contents)</ng-template>
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    @for (col of reference.cols; track col.field) {
+                                        <th pEditableColumn>
+                                            <p-cellEditor>
+                                                <ng-template pTemplate="input"><input type="text" pInputText [(ngModel)]="col.header"></ng-template>
+                                                <ng-template pTemplate="output">{{col.header}}</ng-template>
+                                            </p-cellEditor>
+                                        </th>
+                                    }
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-row>
+                                <tr>
+                                    @for (col of reference.cols; track col.field) {
+                                        <td pEditableColumn>
+                                            <p-cellEditor>
+                                                <ng-template pTemplate="input"><input type="text" pInputText [(ngModel)]="row[col.field]"></ng-template>
+                                                <ng-template pTemplate="output">{{row[col.field]}}</ng-template>
+                                            </p-cellEditor>
+                                        </td>
+                                    }
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    }
+
+                    @if (!reference.isTable()) {
+                        @if (!reference.editing) {
+                            <p class="bolded">{{reference.caption}}</p>
+                            <div [innerHtml]="displayHtml(reference.data)"></div>
+                        } @else {
+                            <textarea pInputTextarea [rows]="8" class="new-textarea" [(ngModel)]="reference.data"></textarea>
+                        }
+                    }
+
+                    @if (userView() === 'admin' || userView() === 'superAdmin') {
+                        <div class="ref-buttons mt-2">
+                            @if (!reference.editing) {
+                                <button pButton icon="pi pi-trash" label="Delete" class="p-button-danger" (click)="deleteReference(reference)"></button>
+                                <button pButton icon="pi pi-pencil" label="Edit" class="ml-2" (click)="reference.editing = true"></button>
+                            } @else {
+                                <button pButton icon="pi pi-times" label="Cancel" class="p-button-secondary" (click)="reference.cancelEditing()"></button>
+                                <button pButton icon="pi pi-check" label="Save" class="p-button-success ml-2" (click)="submitReferenceEdit(reference)" [disabled]="!reference.caption"></button>
+                            }
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    }
+
+    @if (toolbarSelection() === 'Fabric Fence') {
+        <div class="centered">
+            <h1>Fabric Event Fence Linear Foot Calculator</h1>
+            <p>Fabric Event fence- Flat cut 46" tall <br>Sold in 150' increments</p>
+            <p>
+                <label class="bolded">ENTER LENGTH HERE:</label>
+                <input type="text" pInputText [(ngModel)]="fabricLength">
+            </p>
+            <p><label class="bolded">Liner Ft:</label> <span>{{fabricData().linerFt | currency}}</span></p>
+            <p><label class="bolded">Total Price:</label> <span>{{fabricData().totalPrice | currency}}</span></p>
+        </div>
+    }
+
+    @if (toolbarSelection() === 'Powergrip') {
+        <div class="centered">
+            <p>NOTE: ONLY PRICE 1 FRAME AT A TIME</p>
+            <div class="ui-g grid">
+                <div class="ui-g-4 col-4 nowrap">
+                    <label>Quantity:</label> <span>{{quantity()}}</span>
+                </div>
+                <div class="ui-g-4 col-4 nowrap">
+                    <label>Height:</label> <span>{{height()}}</span>
+                </div>
+                <div class="ui-g-4 col-4 nowrap">
+                    <label>Width:</label> <span>{{width()}}</span>
+                </div>
+            </div>
+
+            <hr>
+            <p class="section-header">Extrusion Built to Size</p>
+            <div class="align-left">
+                <p class="section-header">Pricing</p>
+                <div class="ui-g grid">
+                    <div class="ui-g-2 col-2">
+                        <p>{{powergripData().eachCost | currency}}</p>
+                        <p>{{powergripData().totalCost | currency}}</p>
+                    </div>
+                    <div class="ui-g-10 col-10">
+                        <p>(EACH-COST)</p><p>(TOTAL COST)</p>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+            <p class="section-header">Build List</p>
+            <div class="ui-g grid">
+                <div class="ui-g-6 col-6">
+                    <p>&nbsp;</p><p>Aluminum Sticks</p><p>PVC Cover</p><p>Clipping Bars 2"</p>
+                </div>
+                <div class="ui-g-6 col-6">
+                    <p class="bolded">QUANTITY</p>
+                    <p>{{powergripData().aluminumSticks}}</p>
+                    <p>{{powergripData().aluminumSticks}}</p>
+                    <p>{{powergripData().clippingBars}}</p>
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (toolbarSelection() === 'DuraFlex') {
+        <div class="centered">
+            <h1>DURA FLEX FRAME SYSTEM</h1>
+            <p class="section-header">Size</p>
+            <div class="ui-g grid">
+                <div class="ui-g-6 col-6 nowrap"><label class="bolded">Height":</label> <input type="text" pInputText [(ngModel)]="flexHeight"/></div>
+                <div class="ui-g-6 col-6 nowrap"><label class="bolded">Width":</label> <input type="text" pInputText [(ngModel)]="flexWidth"/></div>
+            </div>
+            <div class="ui-g grid align-left">
+                <div class="ui-g-4 col-4"><label class="bolded">t:</label> <span>{{rounded(duraFlexData().t, 2)}}</span></div>
+                <div class="ui-g-4 col-4"><label class="bolded">Total Ft:</label> <span>{{rounded(duraFlexData().totalFt, 2)}}</span></div>
+                <div class="ui-g-4 col-4"><label class="bolded">Cost per Ft:</label> <span>$10.97</span></div>
+            </div>
+
+            <hr>
+            <p class="section-header">Kit Contents</p>
+            <div class="ui-g grid align-left">
+                <div class="ui-g-6 col-6">
+                    <p><label class="bolded">Extrusion:</label> <span>{{rounded(duraFlexData().totalFt, 2)}}</span></p>
+                    <p><label class="bolded">Tool:</label> <span>1</span></p>
+                </div>
+                <div class="ui-g-6 col-6">
+                    <p><label class="bolded">Clips:</label> <span>{{rounded(duraFlexData().flexClips, 2)}}</span></p>
+                    <p><label class="bolded">Fab:</label> <span>1</span></p>
+                </div>
+            </div>
+            <hr>
+            <p class="section-header">Complete W/ TOOL</p>
+            <div class="ui-g grid align-left">
+                <div class="ui-g-6 col-6"><label class="bolded">Price For Frame:</label> <span>{{duraFlexData().toolPriceEach | currency}}</span> (EACH COST)</div>
+                <div class="ui-g-6 col-6"><label class="bolded">Cost Per Foot:</label> <span>{{duraFlexData().toolCostPerFt | currency}}</span></div>
+            </div>
+            <hr>
+            <p class="section-header">Without Tool</p>
+            <div class="ui-g grid align-left">
+                <div class="ui-g-6 col-6"><label class="bolded">Price For Frame:</label> <span>{{duraFlexData().noToolPriceEach | currency}}</span> (EACH COST)</div>
+                <div class="ui-g-6 col-6"><label class="bolded">Cost Per Foot:</label> <span>{{duraFlexData().noToolCostPerFt | currency}}</span></div>
+            </div>
+        </div>
+    }
+
+    @if (toolbarSelection() === 'VCL') {
+        <div class="vcl-div centered">
+            <p>VCL WHITE OR BLACK - Round up to the next inch</p>
+            <div class="ui-g grid">
+                <div class="ui-g-4 col-4 nowrap"><p class="bolded"># of characters</p></div>
+                <div class="ui-g-4 col-4 nowrap"><p class="bolded">Letter Height</p></div>
+                <div class="ui-g-2 col-2 nowrap"><p class="bolded">Character Cost</p></div>
+                <div class="ui-g-2 col-2 align-right"><p class="bolded">Total</p></div>
+            </div>
+
+            @for (i of rowsArr; track i) {
+                <div class="ui-g grid">
+                    <div class="ui-g-4 col-4"><input type="text" pInputText [(ngModel)]="charNumArr[i]" (keyup)="calculateVCLRow(i)" /></div>
+                    <div class="ui-g-4 col-4"><input type="text" pInputText [(ngModel)]="letterHeightArr[i]" (keyup)="calculateVCLRow(i)" /></div>
+                    <div class="ui-g-2 col-2"><span>{{charCostArr[i] | currency}}</span></div>
+                    <div class="ui-g-2 col-2"><span>{{totalArr[i] | currency}}</span></div>
+                </div>
+            }
+
+            <div class="align-left"><p>Setup (per color): $15.00</p></div>
+            <div class="align-left"><p><label class="bolded">Total:</label> <span>{{vclTotal | currency}}</span></p></div>
+            <p>MIN IS ALWAYS $45 PER COLOR</p>
+        </div>
+    }
+
+    @if (toolbarSelection() === 'Presets') {
+        <div>
+            @if (presets().length > 0) {
+                <div class="centered">
+                    <p>Click a preset's name to use it.</p>
+                    @for (preset of presets(); track preset.id) {
+                        <div class="preset-panel" (click)="selectPreset(preset)">
+                            {{preset.name}}
+                            <div class="close-preset" (click)="deletePreset($event, preset)">
+                                <i class="pi pi-times"></i>
+                            </div>
+                        </div>
+                    }
+                </div>
+            } @else {
+                <div class="no-preset">
+                    <p>You don't have any presets saved.</p>
+                    <p>Presets are ways to store orders that you want to use as a template in the future. In order to make a preset, simply fill in what you want in the estimator, then click the 'Store as Preset' button.</p>
+                </div>
+            }
+        </div>
+    }
+</div>

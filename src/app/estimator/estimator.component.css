@@ -1,0 +1,124 @@
+:host ::ng-deep .input-col p {
+  max-width: 100%; }
+:host ::ng-deep .ui-dropdown {
+  min-width: 180px;
+  max-width: 50%; }
+:host ::ng-deep .ui-dropdown.material-dropdown {
+  min-width: 240px;
+  max-width: 85%; }
+:host ::ng-deep .ui-dropdown-item:nth-child(even) {
+  background-color: #e3dfdf; }
+:host ::ng-deep .ui-dropdown-items .ui-state-highlight {
+  background-color: #c82127; }
+:host ::ng-deep .ui-label-disabled {
+  color: #bebebe; }
+:host ::ng-deep .ui-sidebar p {
+  font-size: 19px; }
+:host ::ng-deep .ui-sidebar p:hover {
+  color: #db2828;
+  cursor: pointer; }
+:host ::ng-deep #quantity-input, :host ::ng-deep #manual-scrap {
+  width: 21%; }
+:host ::ng-deep #height-input, :host ::ng-deep #width-input {
+  width: 60%; }
+:host ::ng-deep .brunswick-input input {
+  width: 70%;
+  display: block; }
+:host ::ng-deep .today-button {
+  display: none; }
+:host ::ng-deep .submit-button {
+  background: #c82127; }
+:host ::ng-deep .submit-button:enabled:hover, :host ::ng-deep .submit-button:focus {
+  background-color: #e2242b; }
+:host ::ng-deep .detail-input .ui-inputtext {
+  width: 96%; }
+:host ::ng-deep .toolbar-modal.ui-dialog {
+  margin-right: 20px;
+  height: 90%; }
+:host ::ng-deep .ui-dialog-content {
+  height: 90%; }
+:host ::ng-deep .centered {
+  text-align: center; }
+:host ::ng-deep .ui-sidebar {
+  overflow: scroll; }
+:host ::ng-deep .ui-sidebar p.reference-shortcut {
+  font-size: 16px;
+  margin-left: 2em; }
+
+h1 {
+  font-size: 20px; }
+
+.main {
+  margin-top: 1em;
+  padding: 0 1em 0 1em; }
+
+.height-p {
+  margin-top: 0; }
+
+.swap-button {
+  margin-top: 14px; }
+
+.radio-div {
+  clear: left; }
+
+.tools-div {
+  margin: 1em 2em 0 1em; }
+
+.input-label {
+  font-weight: 700; }
+
+.detail-input {
+  margin-bottom: 20px; }
+
+.view-label {
+  font-weight: bold; }
+
+.secondary-information {
+  background: #d9d9d9;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px; }
+
+.wholesale-retail-div div {
+  padding-bottom: 0; }
+
+.total-div div {
+  padding-top: 0; }
+
+p.each {
+  margin-bottom: 0; }
+
+.nowrap {
+  white-space: nowrap; }
+
+.height-width-div {
+  margin-right: 35px; }
+
+.rush-text {
+  color: red; }
+
+.sales-mult-div {
+  margin-top: 1em; }
+
+.sales-multiplier {
+  margin-top: 1em; }
+
+.retail-col {
+  font-size: 20px; }
+
+.brunswick-logo {
+  max-width: 70%; }
+
+.info-container {
+  font-size: 14px; }
+  .info-container .information {
+    background: #d9d9d9;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px; }
+
+@media only screen and (max-width: 800px) {
+  .ui-float-label label {
+    font-size: 10px; } }
+
+/*# sourceMappingURL=estimator.component.css.map */

@@ -1,0 +1,65 @@
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>
+
+<p-dialog header="New Message" [visible]="writingEmail()" (visibleChange)="writingEmail.set($event)" [modal]="true">
+    <div class="p-fluid">
+        <div class="field">
+            <label class="font-bold">Identity:</label> <span>{{userIdentity()}}</span>
+        </div>
+        <div class="p-inputgroup mb-2">
+            <span class="p-inputgroup-addon">To</span>
+            <input type="text" pInputText [ngModel]="toLine()" (ngModelChange)="toLine.set($event)">
+        </div>
+        <div class="p-inputgroup mb-2">
+            <span class="p-inputgroup-addon">Subject</span>
+            <input type="text" pInputText [ngModel]="subject()" (ngModelChange)="subject.set($event)">
+        </div>
+    </div>
+
+    <p-editor [ngModel]="emailBody()" (ngModelChange)="emailBody.set($event)" [style]="{'height':'320px'}"></p-editor>
+
+    <p-fileUpload #fileInput multiple="multiple" [showUploadButton]="false" customUpload="true" (uploadHandler)="sendEmail($event)"></p-fileUpload>
+
+    <div class="flex justify-content-end mt-3">
+        <button pButton label="Send" icon="pi pi-envelope" class="p-button-danger" (click)="startEmailSend()"></button>
+    </div>
+</p-dialog>
+
+<div class="main">
+    @if (accessUserLevel() === 'admin' || accessUserLevel() === 'superadmin') {
+        <div class="flex gap-2 mb-3">
+            <button pButton label="Email All" (click)="writingEmail.set(true)"></button>
+            <button pButton label="Groups" class="p-button-secondary" (click)="selectingUserGroups.set(true)"></button>
+        </div>
+    }
+
+    <p-table #dt [value]="users()" [scrollable]="true">
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon></th>
+                <th pSortableColumn="firstName">First Name <p-sortIcon field="firstName"></p-sortIcon></th>
+                <th pSortableColumn="lastName">Last Name <p-sortIcon field="lastName"></p-sortIcon></th>
+                <th>Level</th>
+                <th>Actions</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-user>
+            <tr>
+                <td>{{user.email}}</td>
+                <td>{{user.firstName}}</td>
+                <td>{{user.lastName}}</td>
+                <td pEditableColumn>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <p-dropdown [options]="userLevelChoices()" [(ngModel)]="user.level" (onChange)="changeUserLevel(user)" appendTo="body"></p-dropdown>
+                        </ng-template>
+                        <ng-template pTemplate="output">{{displayUserLevel(user.level)}}</ng-template>
+                    </p-cellEditor>
+                </td>
+                <td class="flex gap-2">
+                    <button pButton icon="pi pi-trash" class="p-button-danger p-button-sm" (click)="deleteUser(user)"></button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

@@ -1,0 +1,17 @@
+:host ::ng-deep .p-table {
+  width: 100%;
+  margin-bottom: 2em; 
+}
+
+:host ::ng-deep td .p-dropdown {
+  width: 100% !important; 
+}
+
+:host ::ng-deep .p-datatable-scrollable-body {
+  overflow-y: auto; 
+}
+
+.main {
+  margin: 1em;
+  height: 85vh; 
+}

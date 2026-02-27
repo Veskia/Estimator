@@ -1,0 +1,87 @@
+h1 {
+  font-size: 1.5em; }
+
+.bolded {
+  font-weight: bold; }
+
+.centered {
+  text-align: center; }
+
+.red {
+  color: red; }
+
+.section-header {
+  text-decoration: underline; }
+
+.nowrap {
+  white-space: nowrap; }
+
+.align-left {
+  text-align: left; }
+
+.align-right {
+  text-align: right; }
+
+.info-block {
+  margin-top: 1em;
+  margin-bottom: 1em; }
+  .info-block p {
+    margin: 0; }
+
+.vcl-div {
+  min-width: 600px; }
+
+.drag-sort-div {
+  padding: 5px;
+  border: 1px gray solid;
+  border-radius: 5px;
+  margin: 2px 0 2px 0; }
+
+:host ::ng-deep .reference-div .ui-table {
+  margin-top: 1em;
+  margin-bottom: 1em; }
+  :host ::ng-deep .reference-div .ui-table tr {
+    height: 2em; }
+  :host ::ng-deep .reference-div .ui-table .add-cell {
+    width: 80px !important; }
+  :host ::ng-deep .reference-div .ui-table .ui-inputtext {
+    width: 100%; }
+:host ::ng-deep .green-bg {
+  background-color: #c5e0b3 !important; }
+:host ::ng-deep .blue-bg {
+  background-color: #bdd6ee !important; }
+:host ::ng-deep .grouped-div {
+  margin-top: 1em;
+  margin-bottom: 1em; }
+  :host ::ng-deep .grouped-div .ui-table {
+    margin: 0 !important; }
+:host ::ng-deep .no-preset {
+  max-width: 500px; }
+:host ::ng-deep .preset-panel {
+  text-align: left;
+  background: #f0f1f4;
+  border-radius: 5px;
+  padding: 6px 3px 6px 3px;
+  margin: 9px 0 9px 0; }
+:host ::ng-deep .preset-panel:hover {
+  background: #d8d9dc;
+  cursor: pointer; }
+:host ::ng-deep .close-preset {
+  float: right;
+  border-radius: 5px;
+  padding: 2px 5px 2px 5px; }
+  :host ::ng-deep .close-preset i {
+    color: black; }
+:host ::ng-deep .close-preset:hover {
+  height: 100%;
+  background: #eeeff2; }
+  :host ::ng-deep .close-preset:hover i {
+    color: red; }
+:host ::ng-deep .new-textarea {
+  width: 50%; }
+:host ::ng-deep .ref-buttons {
+  text-align: right; }
+:host ::ng-deep .ref-div {
+  margin-bottom: 25px; }
+
+/*# sourceMappingURL=toolbar.component.css.map */

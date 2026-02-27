@@ -1,0 +1,96 @@
+<div class="main">
+    @if (order()) {
+        <div class="grid review-div">
+            
+            <div class="col-4 align-left">
+                <img src="assets/images/black-gh-logo.png" alt="Graphics House Logo">
+                <p>{{firstName()}} {{lastName()}}</p>
+                <p>GH</p>
+                <p>444 Irwin Ave.</p>
+                <p>Muskegon, MI 49442</p>
+            </div>
+            
+            <div class="col-2 centered">
+                <p><label for="dateNeeded">Date Needed:</label></p>
+                <p id="dateNeeded">{{order()!.dateNeeded | date: 'M-d-yyyy'}}</p>
+            </div>
+            
+            <div class="col-6 centered">
+                <p><label for="inputDate">Input Date:</label></p>
+                <p id="inputDate">{{order()!.dateSubmitted | date: 'M-d-yyyy'}}</p>
+                
+                <div class="grid customer-information">
+                    <div class="col-3">
+                        <p><label>Company:</label></p>
+                        <p><label>Customer:</label></p>
+                        <p><label>Address:</label></p>
+                        <p><label>City:</label></p>
+                        <p><label>State:</label></p>
+                        <p><label>ZIP:</label></p>
+                        <p><label>Phone:</label></p>
+                        <p><label>Email:</label></p>
+                    </div>
+                    <div class="col-9">
+                        <p>{{order()!.company}}@if (!order()!.company) {&nbsp;}</p>
+                        <p>{{order()!.customer}}@if (!order()!.customer) {&nbsp;}</p>
+                        <p>{{order()!.address}}@if (!order()!.address) {&nbsp;}</p>
+                        <p>{{order()!.city}}@if (!order()!.city) {&nbsp;}</p>
+                        <p>{{order()!.state}}@if (!order()!.state) {&nbsp;}</p>
+                        <p>{{order()!.zip}}@if (!order()!.zip) {&nbsp;}</p>
+                        <p>{{order()!.phone}}@if (!order()!.phone) {&nbsp;}</p>
+                        <p>{{order()!.email}}@if (!order()!.email) {&nbsp;}</p>
+                    </div>
+                </div>
+            </div>
+
+            <h1 class="w-full text-left mt-4 mb-2">Estimate #{{displayId()}}</h1>
+            
+            <p-table [value]="order()!.estimates || []" [tableStyle]="{'min-width': '100%'}">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Quantity</th>
+                        <th>Height</th>
+                        <th>Width</th>
+                        <th>Area</th>
+                        <th>Material</th>
+                        <th>Finishing</th>
+                        <th>Lam</th>
+                        <th>Diecut</th>
+                        <th>Per Sq. Ft</th>
+                        <th>Wholesale Price Ea.</th>
+                        <th>Wholesale Total</th>
+                        <th>Retail Price Ea.</th>
+                        <th>Retail Total</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-estimate>
+                    <tr>
+                        <td>{{estimate.quantity}}</td>
+                        <td>{{estimate.height}} in.</td>
+                        <td>{{estimate.width}} in.</td>
+                        <td>{{(estimate.height * estimate.width) / 144 | number:'1.0-2'}} sq. ft</td>
+                        <td>{{estimate.materialName}}</td>
+                        <td>{{estimate.finishingName}}</td>
+                        <td>{{estimate.laminate == 1 ? 'Yes' : 'No'}}</td>
+                        <td>{{estimate.diecut == 1 ? 'Yes' : 'No'}}</td>
+                        <td>{{getPerSqFt(estimate) | currency}}</td>
+                        <td>{{estimate.wholesale / estimate.quantity | currency}}</td>
+                        <td>{{estimate.wholesale | currency}}</td>
+                        <td>{{estimate.price / estimate.quantity | currency}}</td>
+                        <td>{{estimate.price | currency}}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    }
+
+    <div class="print-hidden flex flex-wrap justify-content-center gap-3 mt-5">
+        <button pButton type="button" icon="pi pi-print" label="Print Estimate" (click)="print()"></button>
+        <button pButton type="button" icon="pi pi-copy" label="Duplicate Last Item" class="p-button-secondary"
+                [routerLink]="['/form']" [queryParams]="{groupId: groupId(), estimateId: lastEstimateId()}"></button>
+        <button pButton type="button" icon="pi pi-plus" label="Add New Item to Estimate" class="p-button-secondary"
+                [routerLink]="['/form']" [queryParams]="{groupId: groupId()}"></button>
+        <button pButton type="button" icon="pi pi-arrow-left" label="Back to Estimator" class="p-button-outlined" 
+                [routerLink]="['/form']"></button>
+    </div>
+</div>

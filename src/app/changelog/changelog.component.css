@@ -1,0 +1,24 @@
+:host ::ng-deep th .p-multiselect {
+  width: 100%; 
+}
+:host ::ng-deep .p-table {
+  width: 100%;
+  margin-bottom: 2em; 
+}
+:host ::ng-deep .location-col {
+  width: 7%; 
+}
+:host ::ng-deep .company-col {
+  width: 6%; 
+}
+:host ::ng-deep .operation-col {
+  width: 5%; 
+}
+:host ::ng-deep .date-col {
+  width: 10%; 
+}
+
+.main {
+  margin: 1em;
+  height: 85vh; 
+}

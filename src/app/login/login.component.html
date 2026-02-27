@@ -1,0 +1,19 @@
+<div class="login-container">
+    <h2>Estimator Login</h2>
+    <p>
+        <label for="email-input">Email:</label>
+        <input id="email-input" type="text" pInputText 
+               [ngModel]="email()" (ngModelChange)="email.set($event)" />
+    </p>
+    <p>
+        <label for="password-input">Password:</label>
+        <input id="password-input" type="password" pInputText 
+               [ngModel]="password()" (ngModelChange)="password.set($event)" />
+    </p>
+
+    @if (errorMessage()) {
+        <p style="color: red;">{{ errorMessage() }}</p>
+    }
+
+    <button pButton type="button" label="Log in" (click)="login()"></button>
+</div>

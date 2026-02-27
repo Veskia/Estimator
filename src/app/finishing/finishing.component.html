@@ -1,0 +1,173 @@
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>
+
+<p-dialog header="Add Finishing"
+          [visible]="addFinishingDialog()"
+          (visibleChange)="addFinishingDialog.set($event)"
+          [draggable]="false"
+          [resizable]="false"
+          [modal]="true">
+    <div class="add-modal centered">
+        <div class="ui-g align-left flex gap-4">
+            <div class="ui-g-6">
+                <p>
+                    <label for="new-name">Name:</label>
+                    <input id="new-name" type="text" pInputText [(ngModel)]="newFinishing.name">
+                </p>
+                <h3>Prices by Ft.</h3>
+                <p>
+                    <label for="new-c8">8:</label>
+                    <input id="new-c8" type="text" pInputText pKeyFilter="num" 
+                           [ngModel]="newFinishing.c8" 
+                           (ngModelChange)="newFinishing.c8 = +$event">
+                </p>
+                <p>
+                    <label for="new-c20">20:</label>
+                    <input id="new-c20" type="text" pInputText pKeyFilter="num" 
+                           [ngModel]="newFinishing.c20" 
+                           (ngModelChange)="newFinishing.c20 = +$event">
+                </p>
+                <p>
+                    <label for="new-c21">21:</label>
+                    <input id="new-c21" type="text" pInputText pKeyFilter="num" 
+                           [ngModel]="newFinishing.c21" 
+                           (ngModelChange)="newFinishing.c21 = +$event">
+                </p>
+            </div>
+            <div class="ui-g-6">
+                <p>
+                    <label for="new-company">Company:</label>
+                    <p-dropdown id="new-company" [options]="companies" [(ngModel)]="newFinishing.company"></p-dropdown>
+                </p>
+            </div>
+        </div>
+        <div class="mt-4">
+            <button pButton type="button" label="Submit" icon="pi pi-check"
+                    [disabled]="!finishingComplete(newFinishing)"
+                    (click)="submitNewFinishing(newFinishing)"></button>
+        </div>
+    </div>
+</p-dialog>
+
+@if (userLevel()) {
+<div class="main">
+    @if (userLevel() === 'admin' || userLevel() === 'superadmin') {
+        <div class="mb-3 flex gap-2">
+            <p-dropdown [options]="companies" [ngModel]="selectedCompany()" (onChange)="changeCompany($event)"></p-dropdown>
+            
+            @if (userLevel() === 'superadmin') {
+                <button pButton type="button" label="Add Finishing" class="add-button" (click)="addFinishingDialog.set(true)"></button>
+            }
+            <button pButton type="button" label="Download as CSV" (click)="downloadCSV()"></button>
+        </div>
+    }
+
+    <p-table [value]="filteredFinishing()" sortField="name" [scrollable]="true" scrollHeight="100%" [loading]="loading()">
+        <ng-template pTemplate="header">
+            <tr>
+                @if (userLevel() === 'superadmin') {
+                    <th rowspan="2" class="active-col"></th>
+                }
+                
+                <th rowspan="2" pSortableColumn="name">Hem <p-sortIcon field="name"></p-sortIcon></th>
+                
+                @if (userLevel() !== 'bigsigns') {
+                    <th colspan="3">Prices by Ft.</th>
+                }
+                
+                @if (userLevel() === 'admin' || userLevel() === 'superadmin') {
+                    <th rowspan="2" pSortableColumn="lastUpdate">
+                        Last Update <p-sortIcon field="lastUpdate"></p-sortIcon>
+                    </th>
+                }
+                
+                @if (userLevel() === 'superadmin') {
+                    <th rowspan="2" class="button-col"></th>
+                }
+            </tr>
+            @if (userLevel() !== 'bigsigns') {
+                <tr>
+                    <th pSortableColumn="c8">8 <p-sortIcon field="c8"></p-sortIcon></th>
+                    <th pSortableColumn="c20">20 <p-sortIcon field="c20"></p-sortIcon></th>
+                    <th pSortableColumn="c21">21 <p-sortIcon field="c21"></p-sortIcon></th>
+                </tr>
+            }
+        </ng-template>
+        
+        <ng-template pTemplate="body" let-hem>
+            <tr [ngClass]="hem.active ? '' : 'inactive-row'">
+                
+                @if (userLevel() === 'superadmin') {
+                    <td class="active-col">
+                        <p-checkbox [ngModel]="!hem.active" binary="true" (onChange)="clickActive(hem)"></p-checkbox>
+                    </td>
+                    <td pEditableColumn>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input type="text" pInputText [(ngModel)]="hem.name" required
+                                       (blur)="editCell(hem, 'name', hem.name)" (keydown.enter)="editCell(hem, 'name', hem.name)">
+                            </ng-template>
+                            <ng-template pTemplate="output">{{hem.name}}</ng-template>
+                        </p-cellEditor>
+                    </td>
+                }
+
+                @if (userLevel() !== 'superadmin') {
+                    <td>{{hem.name}}</td>
+                }
+
+                @if (userLevel() === 'superadmin') {
+                    <td pEditableColumn class="price-col">
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input type="text" pInputText pKeyFilter="num" 
+                                       [ngModel]="hem.c8" 
+                                       (ngModelChange)="hem.c8 = +$event" required
+                                       (blur)="editCell(hem, 'c8', hem.c8)" (keydown.enter)="editCell(hem, 'c8', hem.c8)">
+                            </ng-template>
+                            <ng-template pTemplate="output">{{hem.c8 | currency}}</ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td pEditableColumn class="price-col">
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input type="text" pInputText pKeyFilter="num" 
+                                       [ngModel]="hem.c20" 
+                                       (ngModelChange)="hem.c20 = +$event" required
+                                       (blur)="editCell(hem, 'c20', hem.c20)" (keydown.enter)="editCell(hem, 'c20', hem.c20)">
+                            </ng-template>
+                            <ng-template pTemplate="output">{{hem.c20 | currency}}</ng-template>
+                        </p-cellEditor>
+                    </td>
+                    <td pEditableColumn class="price-col">
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input type="text" pInputText pKeyFilter="num" 
+                                       [ngModel]="hem.c21" 
+                                       (ngModelChange)="hem.c21 = +$event" required
+                                       (blur)="editCell(hem, 'c21', hem.c21)" (keydown.enter)="editCell(hem, 'c21', hem.c21)">
+                            </ng-template>
+                            <ng-template pTemplate="output">{{hem.c21 | currency}}</ng-template>
+                        </p-cellEditor>
+                    </td>
+                }
+
+                @if (userLevel() !== 'superadmin' && userLevel() !== 'bigsigns') {
+                    <td>{{hem.c8 | currency}}</td>
+                    <td>{{hem.c20 | currency}}</td>
+                    <td>{{hem.c21 | currency}}</td>
+                }
+
+                @if (userLevel() === 'admin' || userLevel() === 'superadmin') {
+                    <td class="update-col">{{hem.lastUpdate | date: 'M-d-yyyy h:mm a'}}</td>
+                    @if (userLevel() === 'superadmin') {
+                        <td class="button-col">
+                            <button pButton type="button" label="Delete" class="p-button-danger" (click)="delete(hem)"></button>
+                        </td>
+                    }
+                }
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+}

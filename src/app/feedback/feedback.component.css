@@ -1,0 +1,57 @@
+.feedback-div {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  border-left: 1px solid transparent;
+  border-right: 1px solid transparent;
+  border-top: 1px solid transparent;
+  width: 180px;
+  height: 20px;
+  text-align: center;
+  font-size: 18px;
+  padding: 5px;
+  color: white;
+  background-color: #e2242b;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-right: 40px;
+  transition-duration: 1s; 
+  z-index: 9999; /* Ensures it stays above datatables */
+}
+
+.feedback-div i {
+  color: white; 
+}
+
+.feedback-div .close-feedback {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  cursor: pointer; 
+}
+
+.feedback-div.expanded {
+  width: 300px;
+  height: 200px;
+  transition-duration: 1s;
+  cursor: auto; 
+}
+
+textarea {
+  width: 80%;
+  height: 60%;
+  margin-top: 5px;
+  resize: none; 
+}
+
+.response-text {
+  font-size: 16px;
+  text-align: left;
+  padding: 10px; 
+}
+
+@media print {
+  .feedback-div {
+    display: none; 
+  } 
+}

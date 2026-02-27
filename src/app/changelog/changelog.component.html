@@ -1,0 +1,77 @@
+<div class="main">
+    <p-table #dt [value]="changes()" sortField="date" [sortOrder]="-1" [paginator]="true" [rows]="20" styleClass="p-datatable-striped">
+        <ng-template pTemplate="header">
+            <tr>
+                <th class="location-col">Location</th>
+                <th class="company-col">Company</th>
+                <th class="operation-col">Type of Change</th>
+                <th pSortableColumn="itemName">Item <p-sortIcon field="itemName"></p-sortIcon></th>
+                <th>Changed Column</th>
+                <th>Previous Value</th>
+                <th>New Value</th>
+                <th>User</th>
+                <th class="date-col" pSortableColumn="date">Date Changed <p-sortIcon field="date"></p-sortIcon></th>
+            </tr>
+            <tr>
+                <th class="location-col">
+                    <p-multiSelect [options]="locations()" (onChange)="dt.filter($event.value, 'location', 'in')" appendTo="body" styleClass="w-full"></p-multiSelect>
+                </th>
+                <th class="company-col">
+                    <p-multiSelect [options]="companies()" (onChange)="dt.filter($event.value, 'company', 'in')" appendTo="body" styleClass="w-full"></p-multiSelect>
+                </th>
+                <th class="operation-col">
+                    <p-multiSelect [options]="operations()" (onChange)="dt.filter($event.value, 'operation', 'in')" appendTo="body" styleClass="w-full"></p-multiSelect>
+                </th>
+                <th>
+                    <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon"><i class="pi pi-search"></i></span>
+                        <input pInputText type="text" (input)="dt.filter($any($event.target).value, 'itemName', 'contains')">
+                    </div>
+                </th>
+                <th>
+                    <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon"><i class="pi pi-search"></i></span>
+                        <input pInputText type="text" (input)="dt.filter($any($event.target).value, 'colName', 'contains')">
+                    </div>
+                </th>
+                <th>
+                    <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon"><i class="pi pi-search"></i></span>
+                        <input pInputText type="text" (input)="dt.filter($any($event.target).value, 'previousVal', 'contains')">
+                    </div>
+                </th>
+                <th>
+                    <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon"><i class="pi pi-search"></i></span>
+                        <input pInputText type="text" (input)="dt.filter($any($event.target).value, 'newVal', 'contains')">
+                    </div>
+                </th>
+                <th>
+                    <div class="p-inputgroup">
+                        <span class="p-inputgroup-addon"><i class="pi pi-search"></i></span>
+                        <input pInputText type="text" (input)="dt.filter($any($event.target).value, 'userEmail', 'contains')">
+                    </div>
+                </th>
+                <th class="date-col"></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-change>
+            <tr>
+                <td class="location-col">{{change.location}}</td>
+                <td class="company-col">{{displayCompany(change.company)}}</td>
+                <td class="operation-col">{{capitalize(change.operation)}}</td>
+                <td>{{change.itemName}}</td>
+                <td>{{displayColName(change.colName)}}</td>
+                <td>{{displaySingleValue(change, change.previousVal)}}</td>
+                <td>{{displaySingleValue(change, change.newVal)}}</td>
+                <td>{{change.userEmail}}</td>
+                <td class="date-col">{{change.date | date: 'M-d-yyyy h:mm a'}}</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="9" class="text-center p-4">No records found - try changing your filtering criteria.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

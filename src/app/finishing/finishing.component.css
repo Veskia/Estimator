@@ -1,0 +1,49 @@
+:host ::ng-deep .add-modal {
+  min-width: 30vw; }
+:host ::ng-deep .align-left {
+  text-align: left; }
+:host ::ng-deep .centered {
+  text-align: center; }
+:host ::ng-deep .fa-check:before {
+  content: "\F00D"; }
+:host ::ng-deep .inactive-row td {
+  background-color: #eecddc !important; }
+:host ::ng-deep tr {
+  width: 100%; }
+:host ::ng-deep .ui-table {
+  margin-top: 1em; }
+:host ::ng-deep .ui-dialog .ui-dropdown {
+  min-width: 150px;
+  max-width: 50%; }
+:host ::ng-deep .active-col {
+  width: 2%; }
+:host ::ng-deep .button-col {
+  width: 6%; }
+:host ::ng-deep .ui-table-scrollable-body {
+  overflow-y: scroll; }
+
+h1 {
+  font-size: 14px;
+  text-decoration: underline;
+  font-weight: normal; }
+
+label {
+  font-weight: bold; }
+
+.main {
+  margin: 1em;
+  height: 85vh; }
+
+.add-button {
+  margin-left: 1em; }
+
+@media print {
+  /* print styling */
+  :host ::ng-deep .ui-table-scrollable-body {
+    max-height: none !important; }
+  :host ::ng-deep .button-col {
+    display: none !important; }
+  :host ::ng-deep .add-button {
+    display: none !important; } }
+
+/*# sourceMappingURL=finishing.component.css.map */
